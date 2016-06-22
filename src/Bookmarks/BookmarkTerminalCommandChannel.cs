@@ -1,7 +1,11 @@
-﻿using Petecat.Console.Command;
-using System;
+﻿using System;
 using System.IO;
 using System.Reflection;
+using System.Text;
+
+using Petecat.Console.Command;
+using Petecat.Logging;
+using Petecat.Data.Formatters;
 
 namespace Bookmarks
 {
@@ -11,20 +15,13 @@ namespace Bookmarks
         {
             BookmarkConfigFile = bookmarkConfigFile;
 
-            try
+            if (File.Exists(bookmarkConfigFile))
             {
-                if (File.Exists(bookmarkConfigFile))
-                {
-                    BookmarkPage = BookmarkUtility.GetBookmarkPage(bookmarkConfigFile);
-                }
-                else
-                {
-                    BookmarkPage = new BookmarkPage();
-                }
+                BookmarkPage = new XmlFormatter().ReadObject<BookmarkPage>(bookmarkConfigFile, Encoding.UTF8);
             }
-            catch (Exception)
+            else
             {
-                throw new FormatException(bookmarkConfigFile);
+                BookmarkPage = new BookmarkPage();
             }
         }
 
@@ -34,10 +31,17 @@ namespace Bookmarks
 
         public void Consume(string commandText)
         {
-            var terminalCommand = TerminalCommandUtility.Create(Assembly.GetExecutingAssembly(), commandText);
-            if (terminalCommand != null)
+            try
             {
-                Consume(terminalCommand);
+                var terminalCommand = TerminalCommandUtility.Create(Assembly.GetExecutingAssembly(), commandText);
+                if (terminalCommand != null)
+                {
+                    Consume(terminalCommand);
+                }
+            }
+            catch (Exception e)
+            {
+                BookmarkTerminalCommandChannelManager.Instance.LogEvent(LoggerLevel.Error, e);
             }
         }
     }
