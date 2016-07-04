@@ -21,7 +21,7 @@ namespace Bookmarks.Commands
 
                 var bookmarkTerminalCommandChannel = terminalCommandChannel as BookmarkTerminalCommandChannel;
 
-                var bookmarkPage = bookmarkTerminalCommandChannel.BookmarkPage;
+                var bookmarkPage = bookmarkTerminalCommandChannel.BookmarkContainer.CurrentPage;
 
                 BookmarkItem olderBookmarkItem = null;
                 if (TerminalCommandLine.ContainKeys("id"))
@@ -50,7 +50,7 @@ namespace Bookmarks.Commands
                     olderBookmarkItem.Description = TerminalCommandLine["desc"];
                 }
 
-                BookmarkUtility.SetBookmarkPage(bookmarkPage, bookmarkTerminalCommandChannel.BookmarkConfigFile);
+                bookmarkTerminalCommandChannel.BookmarkContainer.Set();
             }
         }
     }

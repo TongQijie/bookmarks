@@ -11,23 +11,12 @@ namespace Bookmarks
 {
     public class BookmarkTerminalCommandChannel : TerminalCommandChannelBase
     {
-        public BookmarkTerminalCommandChannel(string bookmarkConfigFile)
+        public BookmarkTerminalCommandChannel(IBookmarkContainer bookmarkContainer)
         {
-            BookmarkConfigFile = bookmarkConfigFile;
-
-            if (File.Exists(bookmarkConfigFile))
-            {
-                BookmarkPage = new XmlFormatter().ReadObject<BookmarkPage>(bookmarkConfigFile, Encoding.UTF8);
-            }
-            else
-            {
-                BookmarkPage = new BookmarkPage();
-            }
+            BookmarkContainer = bookmarkContainer;
         }
 
-        public BookmarkPage BookmarkPage { get; private set; }
-
-        public string BookmarkConfigFile { get; private set; }
+        public IBookmarkContainer BookmarkContainer { get; private set; }
 
         public void Consume(string commandText)
         {

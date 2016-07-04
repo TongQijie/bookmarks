@@ -259,7 +259,9 @@
                         <TextBlock Text="{Binding Description}" VerticalAlignment="Center" Margin="5,0,0,0"></TextBlock>
                         <StackPanel.ContextMenu>
                             <ContextMenu>
-                                <MenuItem Header="insert sub bookmark" Click="MenuItem_Click">
+                                <MenuItem Header="create bookmark" Click="CreateBookmark_Click">
+                                </MenuItem>
+                                <MenuItem Header="delete bookmark" Click="DeleteBookmark_Click">
                                 </MenuItem>
                             </ContextMenu>
                         </StackPanel.ContextMenu>

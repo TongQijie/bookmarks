@@ -37,17 +37,18 @@
     <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BookmarkFileContainer.cs" />
     <Compile Include="BookmarkItem.cs" />
     <Compile Include="BookmarkLocation.cs" />
     <Compile Include="BookmarkPage.cs" />
     <Compile Include="BookmarkTerminalCommandChannel.cs" />
     <Compile Include="BookmarkTerminalCommandChannelManager.cs" />
-    <Compile Include="BookmarkUtility.cs" />
     <Compile Include="Commands\BookmarkCreateCommand.cs" />
     <Compile Include="Commands\BookmarkDeleteCommand.cs" />
     <Compile Include="Commands\BookmarkQueryCommand.cs" />
     <Compile Include="Commands\BookmarkSearchCommand.cs" />
     <Compile Include="Commands\BookmarkUpdateCommand.cs" />
+    <Compile Include="IBookmarkContainer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

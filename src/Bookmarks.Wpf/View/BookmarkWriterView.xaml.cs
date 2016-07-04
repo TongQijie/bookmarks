@@ -42,6 +42,7 @@ namespace Bookmarks.Wpf.View
             }
 
             var bookmarkItem = new Bookmarks.BookmarkItem();
+            bookmarkItem.Id = ParentBookmarkItem == null ? 0 : ParentBookmarkItem.Core.Id;
             bookmarkItem.Catalog = Catalog;
             bookmarkItem.Index = Index;
             bookmarkItem.Description = Description;
@@ -53,16 +54,7 @@ namespace Bookmarks.Wpf.View
                 LocateLineText = LineText,
             });
 
-            if (ParentBookmarkItem == null)
-            {
-                Bookmarks.BookmarkUtility.SetBookmark(ViewContainer.Controller.BookmarkPage.Core, bookmarkItem);
-            }
-            else
-            {
-                Bookmarks.BookmarkUtility.SetBookmark(ParentBookmarkItem.Core, bookmarkItem);
-            }
-
-            ViewContainer.Controller.Save();
+            ViewContainer.Controller.CreateBookmark(bookmarkItem);
 
             ViewContainer.LeaveWriterView();
         }

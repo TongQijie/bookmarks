@@ -16,11 +16,15 @@ namespace Bookmarks
             Loggers = new List<string>();
         }
 
+        #region 日志
+
         private string _LogCategory = "Bookmarks";
 
         public string LogCategory { get { return _LogCategory; } set { _LogCategory = value; } }
 
         public List<string> Loggers { get; private set; }
+
+        #endregion
 
         private List<BookmarkTerminalCommandChannel> _Channels = null;
 
@@ -30,7 +34,7 @@ namespace Bookmarks
         {
             try
             {
-                var bookmarkTerminalCommandChannel = new BookmarkTerminalCommandChannel(bookmarkConfigFile);
+                var bookmarkTerminalCommandChannel = new BookmarkTerminalCommandChannel(new BookmarkFileContainer(bookmarkConfigFile));
                 Channels.Add(bookmarkTerminalCommandChannel);
                 return bookmarkTerminalCommandChannel;
             }

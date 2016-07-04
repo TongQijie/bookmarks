@@ -21,7 +21,7 @@ namespace Bookmarks.Commands
 
                 var bookmarkTerminalCommandChannel = terminalCommandChannel as BookmarkTerminalCommandChannel;
 
-                var bookmarkPage = bookmarkTerminalCommandChannel.BookmarkPage;
+                var bookmarkPage = bookmarkTerminalCommandChannel.BookmarkContainer.CurrentPage;
 
                 BookmarkItem newerBookmarkItem = null;
                 if (TerminalCommandLine.ContainKeys("cat", "idx", "desc", "path", "text", "line"))
@@ -61,7 +61,7 @@ namespace Bookmarks.Commands
                     bookmarkPage.RootItems.Add(newerBookmarkItem);
                 }
 
-                BookmarkUtility.SetBookmarkPage(bookmarkPage, bookmarkTerminalCommandChannel.BookmarkConfigFile);
+                bookmarkTerminalCommandChannel.BookmarkContainer.Set();
             }
         }
     }

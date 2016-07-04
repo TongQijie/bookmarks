@@ -18,7 +18,7 @@ namespace Bookmarks.Commands
 
                 var bookmarkTerminalCommandChannel = terminalCommandChannel as BookmarkTerminalCommandChannel;
 
-                var bookmarkPage = bookmarkTerminalCommandChannel.BookmarkPage;
+                var bookmarkPage = bookmarkTerminalCommandChannel.BookmarkContainer.CurrentPage;
 
                 if (TerminalCommandLine.ContainKeys("kw"))
                 {

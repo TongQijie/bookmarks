@@ -24,7 +24,7 @@ namespace Bookmarks.Wpf.View
         public BookmarkView()
         {
             DataContext = this;
-            Controller = new Controller.BookmarkController("bookmarks.dat").Load();
+            Controller = new Controller.BookmarkController("bookmarks.dat");
 
             InitializeComponent();
         }
@@ -64,9 +64,17 @@ namespace Bookmarks.Wpf.View
             Controller.SelectedBookmarkItem = bookmarkItem;
         }
 
-        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        private void CreateBookmark_Click(object sender, RoutedEventArgs e)
         {
             EnterWriterView();
+        }
+
+        private void DeleteBookmark_Click(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("sure to delete bookmark?", "Warning", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            {
+                Controller.DeleteBookmark(Controller.SelectedBookmarkItem.Core);
+            }
         }
 
         private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
