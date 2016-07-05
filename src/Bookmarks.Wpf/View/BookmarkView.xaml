@@ -261,6 +261,8 @@
                             <ContextMenu>
                                 <MenuItem Header="create bookmark" Click="CreateBookmark_Click">
                                 </MenuItem>
+                                <MenuItem Header="update bookmark" Click="UpdateBookmark_Click">
+                                </MenuItem>
                                 <MenuItem Header="delete bookmark" Click="DeleteBookmark_Click">
                                 </MenuItem>
                             </ContextMenu>

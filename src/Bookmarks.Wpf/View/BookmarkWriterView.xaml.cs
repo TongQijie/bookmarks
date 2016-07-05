@@ -24,7 +24,6 @@ namespace Bookmarks.Wpf.View
         public BookmarkWriterView()
         {
             DataContext = this;
-
             InitializeComponent();
         }
 
@@ -41,20 +40,41 @@ namespace Bookmarks.Wpf.View
                 return;
             }
 
-            var bookmarkItem = new Bookmarks.BookmarkItem();
-            bookmarkItem.Id = ParentBookmarkItem == null ? 0 : ParentBookmarkItem.Core.Id;
-            bookmarkItem.Catalog = Catalog;
-            bookmarkItem.Index = Index;
-            bookmarkItem.Description = Description;
-            bookmarkItem.Locations = new List<BookmarkLocation>();
-            bookmarkItem.Locations.Add(new BookmarkLocation()
+            if (Id == 0)
             {
-                FileLocation = Path,
-                LocateLineNumber = LineNumber,
-                LocateLineText = LineText,
-            });
+                // add new bookmark
+                var bookmarkItem = new Bookmarks.BookmarkItem();
+                bookmarkItem.ParentItem = ParentBookmarkItem == null ? null : ParentBookmarkItem.Core;
+                bookmarkItem.Catalog = Catalog;
+                bookmarkItem.Index = Index;
+                bookmarkItem.Description = Description;
+                bookmarkItem.Locations = new List<BookmarkLocation>();
+                bookmarkItem.Locations.Add(new BookmarkLocation()
+                {
+                    FileLocation = Path,
+                    LocateLineNumber = LineNumber,
+                    LocateLineText = LineText,
+                });
 
-            ViewContainer.Controller.CreateBookmark(bookmarkItem);
+                ViewContainer.Controller.CreateBookmark(bookmarkItem);
+            }
+            else
+            {
+                var bookmarkItem = new Bookmarks.BookmarkItem();
+                bookmarkItem.Id = Id;
+                bookmarkItem.Catalog = Catalog;
+                bookmarkItem.Index = Index;
+                bookmarkItem.Description = Description;
+                bookmarkItem.Locations = new List<BookmarkLocation>();
+                bookmarkItem.Locations.Add(new BookmarkLocation()
+                {
+                    FileLocation = Path,
+                    LocateLineNumber = LineNumber,
+                    LocateLineText = LineText,
+                });
+
+                ViewContainer.Controller.UpdateBookmark(bookmarkItem);
+            }
 
             ViewContainer.LeaveWriterView();
         }
@@ -62,6 +82,8 @@ namespace Bookmarks.Wpf.View
         public BookmarkView ViewContainer { get; set; }
 
         public ViewModel.BookmarkItem ParentBookmarkItem { get; set; }
+
+        public int Id { get; set; }
 
         private string _Catalog = null;
 
@@ -123,7 +145,20 @@ namespace Bookmarks.Wpf.View
             }
         }
 
-        public int LineNumber { get; set; }
+        private int _LineNumber = 0;
+
+        public int LineNumber
+        {
+            get { return _LineNumber; }
+            set
+            {
+                if (_LineNumber != value)
+                {
+                    _LineNumber = value;
+                    FirePropertiesChanged("LineNumber");
+                }
+            }
+        }
 
         private string _LineText = null;
 

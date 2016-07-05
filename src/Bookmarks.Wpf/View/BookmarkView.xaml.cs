@@ -33,20 +33,6 @@ namespace Bookmarks.Wpf.View
 
         public void EnterWriterView()
         {
-            BookmarkWriterView.ViewContainer = this;
-            BookmarkWriterView.ParentBookmarkItem = Controller.SelectedBookmarkItem;
-            if (BookmarkWriterView.ParentBookmarkItem != null)
-            {
-                BookmarkWriterView.Catalog = BookmarkWriterView.ParentBookmarkItem.Catalog;
-                BookmarkWriterView.Index = BookmarkWriterView.ParentBookmarkItem.ChildItems.Count + 1;
-                BookmarkWriterView.Description = "";
-                if (BookmarkWriterView.ParentBookmarkItem.ChildItems.Count > 0)
-                {
-                    BookmarkWriterView.Path = BookmarkWriterView.ParentBookmarkItem.ChildItems.OrderByDescending(x => x.Index).FirstOrDefault().Fullname;
-                }
-                BookmarkWriterView.LineText = "";
-            }
-
             var storyboard = FindResource("BookmarkWriterViewEnterStoryboard") as Storyboard;
             storyboard.Begin();
         }
@@ -64,8 +50,28 @@ namespace Bookmarks.Wpf.View
             Controller.SelectedBookmarkItem = bookmarkItem;
         }
 
+        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            LeaveWriterView();
+        }
+
         private void CreateBookmark_Click(object sender, RoutedEventArgs e)
         {
+            BookmarkWriterView.Id = 0;
+            BookmarkWriterView.ViewContainer = this;
+            BookmarkWriterView.ParentBookmarkItem = Controller.SelectedBookmarkItem;
+            if (BookmarkWriterView.ParentBookmarkItem != null)
+            {
+                BookmarkWriterView.Catalog = BookmarkWriterView.ParentBookmarkItem.Catalog;
+                BookmarkWriterView.Index = BookmarkWriterView.ParentBookmarkItem.ChildItems.Count + 1;
+                BookmarkWriterView.Description = "";
+                if (BookmarkWriterView.ParentBookmarkItem.ChildItems.Count > 0)
+                {
+                    BookmarkWriterView.Path = BookmarkWriterView.ParentBookmarkItem.ChildItems.OrderByDescending(x => x.Index).FirstOrDefault().Fullname;
+                }
+                BookmarkWriterView.LineText = "";
+            }
+
             EnterWriterView();
         }
 
@@ -77,9 +83,18 @@ namespace Bookmarks.Wpf.View
             }
         }
 
-        private void Grid_MouseDown(object sender, MouseButtonEventArgs e)
+        private void UpdateBookmark_Click(object sender, RoutedEventArgs e)
         {
-            LeaveWriterView();
+            BookmarkWriterView.Id = Controller.SelectedBookmarkItem.Core.Id;
+            BookmarkWriterView.ViewContainer = this;
+            BookmarkWriterView.Catalog = Controller.SelectedBookmarkItem.Catalog;
+            BookmarkWriterView.Index = Controller.SelectedBookmarkItem.Index;
+            BookmarkWriterView.Description = Controller.SelectedBookmarkItem.Description;
+            BookmarkWriterView.Path = Controller.SelectedBookmarkItem.Core.GetLocation().FileLocation;
+            BookmarkWriterView.LineNumber = Controller.SelectedBookmarkItem.Core.GetLocation().LocateLineNumber;
+            BookmarkWriterView.LineText = Controller.SelectedBookmarkItem.Core.GetLocation().LocateLineText;
+
+            EnterWriterView();
         }
     }
 }

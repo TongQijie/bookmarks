@@ -53,7 +53,7 @@
 
         public void CreateBookmark(Bookmarks.BookmarkItem addedBookmark)
         {
-            if (addedBookmark.Id == 0)
+            if (addedBookmark.ParentItem == null)
             {
                 var commandText = string.Format("create -cat \"{0}\" -idx {1} -desc \"{2}\" -path \"{3}\" -text \"{4}\" -line {5}",
                     ConvertString(addedBookmark.Catalog),
@@ -67,7 +67,7 @@
             else
             {
                 var commandText = string.Format("create -id {0} -cat \"{1}\" -idx {2} -desc \"{3}\" -path \"{4}\" -text \"{5}\" -line {6}",
-                    addedBookmark.Id,
+                    addedBookmark.ParentItem.Id,
                     ConvertString(addedBookmark.Catalog),
                     addedBookmark.Index,
                     ConvertString(addedBookmark.Description),
